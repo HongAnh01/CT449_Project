@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <!---------------------------- navigation Start ------------------------------------->
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-if="isLoggedIn" v-model="drawer" app>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title><v-img src="./../public/Blog Watch.png" class="fix-logo"></v-img></v-list-item-title>
@@ -22,6 +22,16 @@
               <v-list-item-title v-text="item.title"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+
+          <v-divider inset></v-divider>
+          <v-list-item @click="logout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon> <!-- Thay icon bằng icon logout mong muốn -->
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
 
@@ -31,7 +41,7 @@
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        <h3>My Blog</h3>
+        <h3>Watch Blog</h3>
       </v-toolbar-title>
     </v-app-bar>
 
@@ -63,12 +73,13 @@
 </template>
 
 <script>
-
+import { EventBus } from './event-bus.js';
 export default {
   data: () => ({
     drawer: null,
+    isLoggedIn: false,
     items: [
-      { title: 'Home', icon: 'mdi-home', link: '/' },
+      { title: 'My Blog', icon: 'mdi-home', link: '/home' },
       { title: 'Add Post', icon: 'mdi-notebook', link: '/add-post' },
     ],
     iconFooter: [
@@ -80,8 +91,19 @@ export default {
   methods: {
     openSocialMedia(url) {
       window.open(url, '_blank');
-    }
-  }
+    },
+    logout() {
+      this.isLoggedIn = false;
+      EventBus.$emit('logged-out');
+
+      this.$router.push('/');
+    },
+  },
+  created() {
+    EventBus.$on('loggedIn', ({ isLoggedIn }) => {
+      this.isLoggedIn = isLoggedIn;
+    });
+  },
 }
 </script>
 

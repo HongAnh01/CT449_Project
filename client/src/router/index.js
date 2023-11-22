@@ -4,15 +4,16 @@ import HomeView from './../views/Home'
 import AddPost from './../views/AddPost'
 import PostDetail from './../views/PostDetail'
 import EditPost from './../views/EditPost'
-// import RegisterView from './../views/Register'
+import RegisterView from './../views/Register'
+import LoginView from './../views/Login'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView,
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
   },
   {
     path: '/add-post',
@@ -29,11 +30,21 @@ const routes = [
     name: 'post',
     component: PostDetail,
   },
-  // {
-  //   path: '/register',
-  //   name: 'register',
-  //   component: RegisterView,
-  // },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView,
+  },
+  {
+    path: '/',
+    name: 'login',
+    component: LoginView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  },
 ];
 
 const router = new VueRouter({

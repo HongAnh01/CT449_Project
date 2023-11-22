@@ -31,4 +31,48 @@ export default class API {
         const res = await axios.delete(`${url}/${id}`);
         return res.data;
     }
+
+    // register
+    static async registerUser(userData) {
+        try {
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                return 'Registration successful';
+            } else {
+                const errorMessage = await response.text();
+                throw new Error(`Registration failed: ${errorMessage}`);
+            }
+        } catch (error) {
+            throw new Error(`Error during registration: ${error.message}`);
+        }
+    }
+
+    //login
+    static async loginUser(userData) {
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                return 'Login successful';
+            } else {
+                const errorMessage = await response.text();
+                throw new Error(`Login failed: ${errorMessage}`);
+            }
+        } catch (error) {
+            throw new Error(`Error during login: ${error.message}`);
+        }
+    }
 }
